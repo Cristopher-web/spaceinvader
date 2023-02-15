@@ -1,0 +1,130 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.mycompany.spaceinvader;
+
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.screen.Screen;
+import java.awt.Toolkit;
+
+/**
+ *
+ * @author DAWTarde
+ */
+public class Ship {
+    private Point2D position;
+    private int widht = 7;
+    private int height = 2;
+    private Bullet bullets[];
+    private static int max_bullets = 3;
+    private String cartoon[] = {
+        " ⢀⣀⣾⣷⣀⡀ ",
+        " ⣿⣿⣿⣿⣿⣿ "
+    };
+    private TextColor.ANSI backgroundcolor;
+    private TextColor.ANSI color;
+    public Ship(){
+        this.position = new Point2D();
+        this.bullets = new Bullet[Ship.max_bullets];
+        //this.init();
+    }
+    public Ship(Point2D position){
+        this.position = position;
+        this.bullets = new Bullet[Ship.max_bullets];
+        //this.init();
+    }
+    public Ship(int x, int y){
+        this.position = position;
+        this.bullets = new Bullet[Ship.max_bullets];
+        //this.init();
+    }
+
+    //private void init() {
+        //this.color = TextColor.ANSI.GREEN;
+        //this.backgroundcolor = TextColor.ANSI.BLACK;
+        //this.bullets = new Bullet[Ship.max_bullets];
+    //}
+    public void moveHorizontal(int incx,int minx, int maxx){
+        if(this.getPosition().getX() + incx - this.getWidht()/2 >= minx && this.getPosition().getX() + incx + this.getWidht() / 2 < maxx){
+          this.getPosition().addx(incx);
+        }else {
+            Toolkit.getDefaultToolkit().beep();
+        }
+    }
+    public void paint(Screen s){
+        char c;
+    for(int i=0;i < this.height;i++){
+        for(int j=0;j<this.getWidht();j++){
+            c= this.cartoon[i].charAt(i);
+           s.setCharacter(this.getPosition().getX() + j, this.getPosition().getY() + i, new TextCharacter(c, TextColor.ANSI.WHITE , TextColor.ANSI.BLACK));
+        }
+    }
+        for(int i=0; i < this.getBullets().length;i++){
+            if(this.getBullets()[i]!=null){
+                this.getBullets()[i].paint(s);
+            }
+        }
+    }
+    public void shot(){
+        boolean encontrado = false;
+        for(int i=0;i<this.getBullets().length && !encontrado;i++){
+            if(this.getBullets()[i] == null){
+                this.getBullets()[i] = new Bullet(this.position.getX() + this.widht / 2, this.position.getY()-1);
+        encontrado = true;
+            }
+        }
+    }
+    public void moveBullet(){
+        for(int i=0;i<this.getBullets().length;i++){
+            if(this.getBullets()[0] != null){
+                this.getBullets()[i].moveVertical(-1, 0, Game.ROWS);
+            }
+        }
+    }
+    
+    
+    /**
+     * @return the position
+     */
+    public Point2D getPosition() {
+        return position;
+    }
+
+    /**
+     * @param position the position to set
+     */
+    public void setPosition(Point2D position) {
+        this.position = position;
+    }
+
+    /**
+     * @return the widht
+     */
+    public int getWidht() {
+        return widht;
+    }
+
+    /**
+     * @param widht the widht to set
+     */
+    public void setWidht(int widht) {
+        this.widht = widht;
+    }
+
+    /**
+     * @return the bullets
+     */
+    public Bullet[] getBullets() {
+        return bullets;
+    }
+
+    /**
+     * @param bullets the bullets to set
+     */
+    public void setBullets(Bullet[] bullets) {
+        this.bullets = bullets;
+    }
+}
