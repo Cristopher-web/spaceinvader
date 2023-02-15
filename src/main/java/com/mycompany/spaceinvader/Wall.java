@@ -61,9 +61,9 @@ public class Wall {
           this.posicion.getX() + this.widht > b.getPosicion().getX()){
            cordenadax=b.getPosicion().getX()-this.posicion.getX();
            cordenaday=b.getPosicion().getY()-this.posicion.getY();
-           if(this.cartoon[cordenadax][cordenaday]!=' '){
+           if(this.cartoon[cordenaday][cordenadax]!=' '){
                 col=true;
-                this.cartoon[cordenadax][cordenaday]=' ';
+                this.cartoon[cordenaday][cordenadax]=' ';
            }
        }
        return col;

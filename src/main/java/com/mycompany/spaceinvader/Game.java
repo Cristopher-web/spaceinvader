@@ -60,11 +60,24 @@ private Terminal terminal;
     }
     private void update(){
         this.ship.moveBullet();
+        this.collission();
+    }
+     private void collission(){
+        Bullet[] ship_bullets = this.ship.getBullets();
+        for(int i=0;i<this.walls.length;i++){
+            for(int j=0; j<ship_bullets.length;j++){
+                if(this.walls != null && ship_bullets[j] != null){
+                    if(this.walls[i].collission(ship_bullets[j])){
+                        ship_bullets[j] = null;
+                    }
+                }
+            }
+        }
     }
     private void createWalls(){
         this.walls = new Wall[4];
         for(int i=0; i<this.walls.length; i++){
-            this.walls[i] = new Wall(new Point2D(((i+1)*20),10));
+            this.walls[i] = new Wall(new Point2D(((i+1)*20),15));
         }
     }
     private void paintcreateWall(Screen s){
@@ -72,16 +85,7 @@ private Terminal terminal;
             this.walls[i].paint(s);
         }
     }
-    public void Collision(){
-        Bullet[] ship_bullets = this.ship.getBullets();
-        for(int i=0;i<this.walls.length;i++){
-            for(int j=0; j<ship_bullets.length;j++){
-                if(this.walls != null && ship_bullets[i] != null){
-                  
-                }
-            }
-        }
-    }
+  
     private void paint( ) throws IOException {
         TerminalSize terminalSize = this.screen.getTerminalSize();
         for (int column = 0; column < terminalSize.getColumns(); column++){
